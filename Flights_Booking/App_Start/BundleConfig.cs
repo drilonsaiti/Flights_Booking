@@ -25,6 +25,13 @@ namespace Flights_Booking
                       "~/Scripts/DataTables/jquery.dataTables.js",
                       "~/Scripts/DataTables/dataTables.bootstrap.js"));
 
+            bundles.Add(new Bundle("~/bundles/bootstrap").Include(
+                       "~/Scripts/bootstrap.js",
+                       "~/Scripts/respond.js",
+                        "~/Scripts/bootbox.js",
+                      "~/Scripts/DataTables/jquery.dataTables.js",
+                      "~/Scripts/DataTables/dataTables.bootstrap.js"));
+
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

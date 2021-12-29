@@ -7,7 +7,7 @@
 
 <h2>Index</h2>
 
-<table id="ticketTable" class="table">
+<table id="ticketTable" data-order='[[ 3, "decs" ]]' class="table table-striped">
     <thead>
         <tr>
             <th>
@@ -31,7 +31,8 @@
             <th>
                 Price
             </th>
-            <th>Download boarding pass</th>
+            <th>Download </th>
+            <th><i class="fa fa-trash" style="font-size:20px"></i></th>
         </tr>
     </thead>
 
@@ -74,8 +75,10 @@
                         <a href="/Tickets/Download/@item.orderID" class="btn btn-success"><i class="fa fa-download"> Download</i></a>
 
                     }
-                    <button data-flight-id="@item.orderID" class="btn btn-danger js-delete"><i class="fa fa-trash"> Delete </i></button> |
 
+                </td>
+                <td>
+                    <button data-flight-id="@item.orderID" class="btn btn-danger js-delete"><i class="fa fa-trash"> Delete </i></button>
                 </td>
             </tr>
         }

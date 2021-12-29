@@ -19,7 +19,7 @@
         </p>
     }
 
-    <table id="flightTables" class="table wi">
+    <table data-order='[[ 3, "asc" ]]' id="flightTables" class="table table-striped">
         <thead>
             <tr>
                 <th>
@@ -94,10 +94,11 @@
                             @if (User.IsInRole("User"))
                             {
 
-                                @Html.ActionLink("Buy", "Reservation", new
+
+                                @Html.ActionLink(" Buy", "Reservation", new
                                 {
                                     idFlight = item.ID
-                                }, htmlAttributes: new { @class = "btn btn-success btn-lg" })
+                                }, htmlAttributes: new { @class = "btn btn-success btn-lg fa fa-ticket" })
 
                             }
 
