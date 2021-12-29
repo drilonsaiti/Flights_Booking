@@ -1,0 +1,138 @@
+﻿
+@model IEnumerable<Flights_Booking.Models.Flight>
+
+@{
+    ViewBag.Title = "Flights";
+
+
+}
+
+<br />
+<br />
+
+<div class="container">
+    @if (User.IsInRole("Admin") || User.IsInRole("Editor") || User.IsInRole("Manager"))
+    {
+        <p>
+
+            @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btn-large" })
+        </p>
+    }
+
+    <table id="flightTables" class="table wi">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.From_Location)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.To_Location)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Deparature_Time)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Arrival_Time)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Duration)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Total_Seats)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.agency)
+                </th>
+                <th>Buy tickets</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                if (item.cantShowOrDownload() == "true")
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.From_Location)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.To_Location)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Deparature_Time)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Arrival_Time)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Duration)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Total_Seats)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.agency)
+                        </td>
+                        <td>
+
+                            @if (User.IsInRole("Admin") || User.IsInRole("Editor") || User.IsInRole("Manager"))
+                            {
+                                <a href="/Flights/Edit/@item.ID" class="btn btn-primary"><i class="fa fa-edit"> Edit</i></a>
+
+                                <a href="/Flights/Details/@item.ID" class="btn btn-info"> <i class="fa fa-info-circle"> Details</i></a>
+
+                                <button data-flight-id="@item.ID" class="btn btn-danger js-delete"> <i class="fa fa-trash"> Delete</i></button>
+                            }
+
+                            @if (User.IsInRole("User"))
+                            {
+
+                                @Html.ActionLink("Buy", "Reservation", new
+                                {
+                                    idFlight = item.ID
+                                }, htmlAttributes: new { @class = "btn btn-success btn-lg" })
+
+                            }
+
+
+
+
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+            var table = $("#flightTables").DataTable();
+
+            $("#flightTables .js-delete").on("click", function () {
+
+                var button = $(this);
+                bootbox.confirm("Do you want to delete this flight", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/Flights/Delete/" + button.attr("data-flight-id"),
+                            method: "GET",
+                            success: function () {
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        })
+                    }
+                })
+            })
+        })
+    </script>
+}

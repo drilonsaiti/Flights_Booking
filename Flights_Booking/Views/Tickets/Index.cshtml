@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Flights_Booking.Models.OrderForTicket>
+
+@{
+    ViewBag.Title = "Index";
+    int element = 0;
+}
+
+<h2>Index</h2>
+
+<table id="ticketTable" class="table">
+    <thead>
+        <tr>
+            <th>
+                From
+            </th>
+            <th>
+                To
+            </th>
+            <th>
+                Departure
+            </th>
+            <th>
+                Arrival
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Card number
+            </th>
+            <th>
+                Price
+            </th>
+            <th>Download boarding pass</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            element++;
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.flight.From_Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.flight.To_Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.flight.Deparature_Time)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.flight.Arrival_Time)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.reservation.Name)
+                </td>
+                <td>
+                    @{
+                        string encode = item.payment.encodeCardNumber(item.payment.Card_Number);
+                    }
+                    @Html.DisplayFor(modelItem => encode)
+                </td>
+                <td>
+
+                    @Html.DisplayFor(modelItem => item.flight.Price)
+                </td>
+
+                <td>
+                    @if (item.flight.cantShowOrDownload() == "true")
+                    {
+                        <a href="/Tickets/Download/@item.orderID" class="btn btn-success"><i class="fa fa-download"> Download</i></a>
+
+                    }
+                    <button data-flight-id="@item.orderID" class="btn btn-danger js-delete"><i class="fa fa-trash"> Delete </i></button> |
+
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+            var table = $("#ticketTable").DataTable();
+            $("#ticketTable .js-delete").on("click", function () {
+                var button = $(this);
+                bootbox.confirm("Do you want to delete this ticket purchesed", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/Tickets/Delete/" + button.attr("data-flight-id"),
+                            method: "GET",
+                            success: function () {
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        })
+                    }
+                })
+            })
+        })
+    </script>
+}

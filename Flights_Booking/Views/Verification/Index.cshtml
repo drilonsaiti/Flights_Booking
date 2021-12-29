@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var error = ViewBag.ErrorVerification;
+}
+
+<h2>Index</h2>
+
+@using (Html.BeginForm("Index", "Verification", FormMethod.Post))
+{
+    <label style="font-size:20px">Find ticket with ticket number(order)</label>
+    <br />
+    <input id="idOrder" name="idOrder" type="number" />
+    <br />
+    <br />
+
+
+    <input type="submit" value="Search ticket" class="btn btn-success" />
+
+
+
+}
+
+@if (error != null)
+{
+    <div class="container">
+        <label class="text-danger text-center mw-100" style="font-size: 40px">@error</label>
+    </div>
+}
