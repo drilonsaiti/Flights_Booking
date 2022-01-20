@@ -15,7 +15,7 @@ namespace Flights_Booking.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Flights
-        [Authorize(Roles = "User,Admin,Editor,Manager")]
+        [AllowAnonymous]
         public ActionResult Index()
         {
 

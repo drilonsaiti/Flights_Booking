@@ -17,7 +17,8 @@ namespace Flights_Booking.Models
         public String Full_Name { get; set; }
         [Display(Name = "Card number")]
         [Required]
-
+        [MaxLength(16)]
+        [MinLength(16)]
         public String Card_Number { get; set; }
         [Display(Name = "CVV2")]
         public String CVV2;
