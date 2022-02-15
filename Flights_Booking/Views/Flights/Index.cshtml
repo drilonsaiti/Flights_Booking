@@ -22,6 +22,10 @@
     <table data-order='[[ 3, "asc" ]]' id="flightTables" class="table table-striped">
         <thead>
             <tr>
+                @if (User.IsInRole("Admin") || User.IsInRole("Editor") || User.IsInRole("Manager"))
+                {
+                    <th>ID</th>
+                }
                 <th>
                     @Html.DisplayNameFor(model => model.From_Location)
                 </th>
@@ -53,16 +57,23 @@
         <tbody>
             @foreach (var item in Model)
             {
+
                 if (item.cantShowOrDownload() == "true")
                 {
                     <tr>
+                        @if (User.IsInRole("Admin") || User.IsInRole("Editor") || User.IsInRole("Manager"))
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ID)
+                            </td>
+                        }
                         <td>
                             @Html.DisplayFor(modelItem => item.From_Location)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.To_Location)
                         </td>
-                        <td>
+                        <td data-sort="@item.byMonthAndDay()">
                             @Html.DisplayFor(modelItem => item.Deparature_Time)
                         </td>
                         <td>
@@ -75,7 +86,7 @@
                             @Html.DisplayFor(modelItem => item.Total_Seats)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Price)
+                            @Html.DisplayFor(modelItem => item.Price) &euro;
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.agency)
@@ -96,9 +107,9 @@
 
 
                                 @Html.ActionLink(" Buy", "Reservation", new
-                                {
-                                    idFlight = item.ID
-                                }, htmlAttributes: new { @class = "btn btn-success btn-lg fa fa-ticket" })
+                           {
+                               idFlight = item.ID
+                           }, htmlAttributes: new { @class = "btn btn-success btn-lg fa fa-ticket" })
 
                             }
 

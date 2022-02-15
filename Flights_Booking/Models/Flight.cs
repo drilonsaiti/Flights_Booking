@@ -102,11 +102,41 @@ namespace Flights_Booking.Models
             int min = now.Hour - hour;
             int minday = (day - now.Day) * 24;
 
-            if (day >= now.Day && month >= now.Month && year >= now.Year && min + minday > 0 && min + minday >= 4)
+            if (month > now.Month && year >= now.Year)
             {
+
                 return "true";
             }
+            else if (month == now.Month && year >= now.Year)
+            {
+                if (day > now.Day)
+                {
+                    return "true";
+                }
+                else if (day == now.Day && min < 0)
+                {
+                    return "true";
+                }
+            }
             return "false";
+        }
+
+        public string byMonthAndDay()
+        {
+            String data = Deparature_Time.Substring(0, 10);
+            String time = Deparature_Time.Substring(11);
+
+            String[] partsDate = data.Split('-');
+            String[] partsTime = time.Split(':');
+
+            DateTime now = DateTime.Now;
+            int month = Convert.ToInt32(partsDate[1]);
+
+
+            return partsDate[1] + "-" + partsDate[0] + "-" + partsTime[0] + "-" + partsTime[1];
+
+
+
         }
 
         public string GetDateForOrder()
